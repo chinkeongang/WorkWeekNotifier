@@ -138,6 +138,12 @@ class Program
         // Adjust the date by the offset
         DateTime startOfWeek = jan1.AddDays(offsetToSunday);
     
+        // If the first day of the year is a weekday (Monday to Friday), adjust the start of the week to the first day of the year
+        if (jan1DayOfWeek >= 1 && jan1DayOfWeek <= 5)
+        {
+            startOfWeek = jan1;
+        }
+
         // Calculate the number of days between the date and the start of the week
         int days = (date - startOfWeek).Days;
     
