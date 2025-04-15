@@ -128,29 +128,12 @@ class Program
 
     static int GetWorkWeekNumber(DateTime date)
     {
-        // Determine the first day of the year and the day of the week it falls on
-        DateTime jan1 = new DateTime(date.Year, 1, 1);
-        int jan1DayOfWeek = (int)jan1.DayOfWeek;
-    
-        // Calculate the offset to the first Sunday of the year
-        int offsetToSunday = (7 - jan1DayOfWeek + (int)DayOfWeek.Sunday) % 7;
-    
-        // Adjust the date by the offset
-        DateTime startOfWeek = jan1.AddDays(offsetToSunday);
-    
-        // If the first day of the year is a weekday (Monday to Friday), adjust the start of the week to the first day of the year
-        if (jan1DayOfWeek >= 1 && jan1DayOfWeek <= 5)
-        {
-            startOfWeek = jan1;
-        }
-
-        // Calculate the number of days between the date and the start of the week
-        int days = (date - startOfWeek).Days;
-    
-        // Calculate the work week number
-        int workWeekNumber = (days / 7) + 1;
-    
-        return workWeekNumber;
+        // Use ISO 8601 standard for week numbering
+        System.Globalization.Calendar cal = System.Globalization.CultureInfo.InvariantCulture.Calendar;
+        System.Globalization.CalendarWeekRule weekRule = System.Globalization.CalendarWeekRule.FirstFourDayWeek;
+        DayOfWeek firstDayOfWeek = DayOfWeek.Monday;
+        
+        return cal.GetWeekOfYear(date, weekRule, firstDayOfWeek);
     }
 
 }
